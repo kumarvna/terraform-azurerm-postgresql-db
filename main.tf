@@ -183,3 +183,37 @@ resource "azurerm_postgresql_virtual_network_rule" "main" {
   subnet_id                            = var.subnet_id
   ignore_missing_vnet_service_endpoint = var.ignore_missing_vnet_service_endpoint
 }
+
+#------------------------------------------------------------------
+# azurerm monitoring diagnostics  - Default is "false" 
+#------------------------------------------------------------------
+resource "azurerm_monitor_diagnostic_setting" "extaudit" {
+  count                      = var.log_analytics_workspace_name != null ? 1 : 0
+  name                       = lower("extaudit-${var.postgresql_server_name}-diag")
+  target_resource_id         = azurerm_postgresql_server.main.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.logws.0.id
+  storage_account_id         = var.enable_threat_detection_policy ? azurerm_storage_account.storeacc.0.id : null
+
+  dynamic "log" {
+    for_each = var.extaudit_diag_logs
+    content {
+      category = log.value
+      enabled  = true
+      retention_policy {
+        enabled = false
+      }
+    }
+  }
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [log, metric]
+  }
+}

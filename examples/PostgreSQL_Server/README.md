@@ -1,10 +1,10 @@
-# Azure Database for MySQL Terraform Module
+# Azure Database for PostgreSQL Terraform Module
 
-Azure Database for MySQL is easy to set up, manage and scale. It automates the management and maintenance of your infrastructure and database server, including routine updates, backups and security. Enjoy maximum control of database management with custom maintenance windows and multiple configuration parameters for fine grained tuning with Flexible Server (Preview).
+Azure Database for PostgreSQL Single Server is a fully managed database service with minimal requirements for customizations of database. The single server platform is designed to handle most of the database management functions such as patching, backups, high availability, security with minimal user configuration and control. The architecture is optimized for built-in high availability with 99.99% availability on single availability zone. It supports community version of PostgreSQL 9.5, 9,6, 10, and 11.
 
 ## Module Usage
 
-```hcl
+```terraform
 module "postgresql-db" {
   source  = "kumarvna/postgresql-db/azurerm"
   version = "1.0.0"
@@ -17,7 +17,7 @@ module "postgresql-db" {
   resource_group_name   = "rg-shared-westeurope-01"
   location              = "westeurope"
 
-  # MySQL Server and Database settings
+  # PostgreSQL Server and Database settings
   postgresql_server_name = "mypostgresdbsrv01"
 
   postgresql_server_settings = {
@@ -47,7 +47,7 @@ module "postgresql-db" {
     backslash_quote = "on"
   }
 
-  # Use Virtual Network service endpoints and rules for Azure Database for MySQL
+  # Use Virtual Network service endpoints and rules for Azure Database for PostgreSQL
   subnet_id = var.subnet_id
 
   # The URL to a Key Vault custom managed key
@@ -58,13 +58,13 @@ module "postgresql-db" {
   log_retention_days             = 30
   email_addresses_for_alerts     = ["user@example.com", "firstname.lastname@example.com"]
 
-  # AD administrator for an Azure MySQL server
-  # Allows you to set a user or group as the AD administrator for an Azure SQL server
+  # AD administrator for an Azure database for PostgreSQL
+  # Allows you to set a user or group as the AD administrator for PostgreSQL server
   ad_admin_login_name = "firstname.lastname@example.com"
 
-  # (Optional) To enable Azure Monitoring for Azure MySQL database
+  # (Optional) To enable Azure Monitoring for Azure PostgreSQL database
   # (Optional) Specify `storage_account_name` to save monitoring logs to storage. 
-  //log_analytics_workspace_name = "loganalytics-we-sharedtest2"
+  log_analytics_workspace_name = "loganalytics-we-sharedtest2"
 
   # Firewall Rules to allow azure and external clients and specific Ip address/ranges. 
   firewall_rules = {

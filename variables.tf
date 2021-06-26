@@ -138,6 +138,12 @@ variable "ignore_missing_vnet_service_endpoint" {
   description = "Should the Virtual Network Rule be created before the Subnet has the Virtual Network Service Endpoint enabled?"
   default     = false
 }
+
+variable "extaudit_diag_logs" {
+  description = "Database Monitoring Category details for Azure Diagnostic setting"
+  default     = ["PostgreSQLLogs", "QueryStoreRuntimeStatistics", "QueryStoreWaitStatistics"]
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)

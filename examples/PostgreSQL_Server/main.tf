@@ -1,6 +1,7 @@
 module "postgresql-db" {
-  source  = "kumarvna/postgresql-db/azurerm"
-  version = "1.0.0"
+  //  source  = "kumarvna/postgresql-db/azurerm"
+  //  version = "1.0.0"
+  source = "../../"
 
   # By default, this module will create a resource group
   # proivde a name to use an existing resource group and set the argument 
