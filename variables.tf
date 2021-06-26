@@ -109,6 +109,12 @@ variable "log_retention_days" {
   default     = "30"
 }
 
+variable "postgresql_configuration" {
+  description = "Sets a PostgreSQL Configuration value on a PostgreSQL Server"
+  type        = map(string)
+  default     = {}
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)

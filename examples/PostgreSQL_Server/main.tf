@@ -34,13 +34,13 @@ module "postgresql-db" {
     ssl_enforcement_enabled          = true
     ssl_minimal_tls_version_enforced = "TLS1_2"
   }
-  /*
-  # MySQL Server Parameters
-  # For more information: https://docs.microsoft.com/en-us/azure/mysql/concepts-server-parameters
-  mysql_configuration = {
-    interactive_timeout = "600"
-  }
 
+  # PostgreSQL Server Parameters 
+  # For more information: https://bit.ly/3dbYTtB
+  postgresql_configuration = {
+    backslash_quote = "on"
+  }
+  /*
   # Use Virtual Network service endpoints and rules for Azure Database for MySQL
   subnet_id = var.subnet_id
 

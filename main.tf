@@ -128,3 +128,14 @@ resource "azurerm_postgresql_database" "main" {
   collation           = var.postgresql_server_settings.collation
 }
 
+#------------------------------------------------------------
+# Adding  PostgreSQL Server Parameters - Default is "false"
+#------------------------------------------------------------
+resource "azurerm_postgresql_configuration" "main" {
+  for_each            = var.postgresql_configuration != null ? { for k, v in var.postgresql_configuration : k => v if v != null } : {}
+  name                = format("%s", each.key)
+  resource_group_name = local.resource_group_name
+  server_name         = azurerm_postgresql_server.main.name
+  value               = each.value
+}
+
