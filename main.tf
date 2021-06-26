@@ -4,7 +4,10 @@
 locals {
   resource_group_name = element(coalescelist(data.azurerm_resource_group.rgrp.*.name, azurerm_resource_group.rg.*.name, [""]), 0)
   location            = element(coalescelist(data.azurerm_resource_group.rgrp.*.location, azurerm_resource_group.rg.*.location, [""]), 0)
-  #  if_threat_detection_policy_enabled = var.enable_threat_detection_policy ? [{}] : []
+  mysqlserver_settings = defaults(var.postgresql_server_settings, {
+    charset   = "UTF8"
+    collation = "English_United States.1252"
+  })
 }
 
 #---------------------------------------------------------
@@ -76,7 +79,7 @@ resource "azurerm_postgresql_server" "main" {
   name                              = format("%s", var.postgresql_server_name)
   resource_group_name               = local.resource_group_name
   location                          = local.location
-  administrator_login               = var.admin_username == null ? "sqladmin" : var.admin_username
+  administrator_login               = var.admin_username == null ? "postgresadmin" : var.admin_username
   administrator_login_password      = var.admin_password == null ? random_password.main.0.result : var.admin_password
   sku_name                          = var.postgresql_server_settings.sku_name
   version                           = var.postgresql_server_settings.version
