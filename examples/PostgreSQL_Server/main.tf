@@ -18,7 +18,7 @@ module "postgresql-db" {
     sku_name   = "GP_Gen5_8"
     storage_mb = 640000
     version    = "9.6"
-    # default admin user `sqladmin` and can be specified as per the choice here
+    # default admin user `postgresadmin` and can be specified as per the choice here
     # by default random password created by this module. required password can be specified here
     admin_username = "postgresadmin"
     admin_password = "H@Sh1CoR3!"
