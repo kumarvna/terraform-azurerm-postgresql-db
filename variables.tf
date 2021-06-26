@@ -115,6 +115,15 @@ variable "postgresql_configuration" {
   default     = {}
 }
 
+variable "firewall_rules" {
+  description = "Range of IP addresses to allow firewall connections."
+  type = map(object({
+    start_ip_address = string
+    end_ip_address   = string
+  }))
+  default = null
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)

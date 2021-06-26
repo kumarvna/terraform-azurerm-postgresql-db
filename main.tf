@@ -133,9 +133,20 @@ resource "azurerm_postgresql_database" "main" {
 #------------------------------------------------------------
 resource "azurerm_postgresql_configuration" "main" {
   for_each            = var.postgresql_configuration != null ? { for k, v in var.postgresql_configuration : k => v if v != null } : {}
-  name                = format("%s", each.key)
+  name                = each.key
   resource_group_name = local.resource_group_name
   server_name         = azurerm_postgresql_server.main.name
   value               = each.value
 }
 
+#------------------------------------------------------------
+# Adding Firewall rules for MySQL Server - Default is "false"
+#------------------------------------------------------------
+resource "azurerm_postgresql_firewall_rule" "main" {
+  for_each            = var.firewall_rules != null ? { for k, v in var.firewall_rules : k => v if v != null } : {}
+  name                = format("%s", each.key)
+  resource_group_name = local.resource_group_name
+  server_name         = azurerm_postgresql_server.main.name
+  start_ip_address    = each.value["start_ip_address"]
+  end_ip_address      = each.value["end_ip_address"]
+}

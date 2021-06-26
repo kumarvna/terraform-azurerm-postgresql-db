@@ -23,14 +23,14 @@ module "postgresql-db" {
     admin_username = "postgresadmin"
     admin_password = "H@Sh1CoR3!"
     # Database name, charset and collection arguments  
-    database_name = "demomy-postgres-db"
+    database_name = "demo-postgres-db"
     charset       = "UTF8"
     collation     = "English_United States.1252"
     # Storage Profile and other optional arguments
     auto_grow_enabled                = true
     backup_retention_days            = 7
     geo_redundant_backup_enabled     = true
-    public_network_access_enabled    = false
+    public_network_access_enabled    = true
     ssl_enforcement_enabled          = true
     ssl_minimal_tls_version_enforced = "TLS1_2"
   }
@@ -59,7 +59,7 @@ module "postgresql-db" {
   # (Optional) To enable Azure Monitoring for Azure MySQL database
   # (Optional) Specify `storage_account_name` to save monitoring logs to storage. 
   log_analytics_workspace_name = "loganalytics-we-sharedtest2"
-
+*/
   # Firewall Rules to allow azure and external clients and specific Ip address/ranges. 
   firewall_rules = {
     access-to-azure = {
@@ -71,7 +71,7 @@ module "postgresql-db" {
       end_ip_address   = "49.204.228.223"
     }
   }
-*/
+
   # Tags for Azure Resources
   tags = {
     Terraform   = "true"
