@@ -212,12 +212,12 @@ An effective naming convention assembles resource names by using important resou
 `random_password_length`|The desired length of random password created by this module|string|`24`
 `subnet_id`|The resource ID of the subnet|string|`null`
 `postgresql_server_name`|PostgreSQL server Name|string|`""`
-`admin_username`|The username of the local administrator used for the SQL Server|string|`"postgresadmin"`
-`admin_password`|The Password which should be used for the local-administrator on this SQL Server|string|`null`
-`identity`|If you want your SQL Server to have an managed identity. Defaults to false|string|`false`
+`admin_username`|The username of the local administrator used for the PostgreSQL Server|string|`"postgresadmin"`
+`admin_password`|The Password which should be used for the local-administrator on this PostgreSQL Server|string|`null`
+`identity`|If you want your PostgreSQL Server to have an managed identity. Defaults to false|string|`false`
 `postgresql_server_settings`|PostgreSQL server settings|object({})|`{}`
 `create_mode`|The creation mode. Can be used to restore or replicate existing servers. Possible values are `Default`, `Replica`, `GeoRestore`, and `PointInTimeRestore`|string|`Default`
-`creation_source_server_id`|For creation modes other than `Default`, the source server ID to use|string|`null`
+`creation_source_server_id`|For creation modes ot    her than `Default`, the source server ID to use|string|`null`
 `restore_point_in_time`|When `create_mode` is `PointInTimeRestore`, specifies the point in time to restore from `creation_source_server_id`|string|`null`
 `storage_account_name`|The name of the storage account name|string|`null`
 `enable_threat_detection_policy`|Threat detection policy configuration, known in the API as Server Security Alerts Policy|string|`false`
@@ -228,7 +228,6 @@ An effective naming convention assembles resource names by using important resou
 firewall_rules|Range of IP addresses to allow firewall connections|map(object({}))|`null`
 `ad_admin_login_name`|The login name of the principal to set as the server administrator|string|`null`
 `key_vault_key_id`|The URL to a Key Vault custom managed key|string|`null`
-`extaudit_diag_logs`|Database Monitoring Category details for Azure Diagnostic setting|list(string)|`["PostgreSQLLogs", "QueryStoreRuntimeStatistics", "QueryStoreWaitStatistics"]`
 `Tags` | A map of tags to add to all resources | map | `{}`
 
 ## Outputs
