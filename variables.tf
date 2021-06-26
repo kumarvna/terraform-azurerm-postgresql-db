@@ -13,11 +13,6 @@ variable "location" {
   default     = ""
 }
 
-variable "subnet_id" {
-  description = "The resource ID of the subnet"
-  default     = ""
-}
-
 variable "log_analytics_workspace_name" {
   description = "The name of log analytics workspace name"
   default     = null
@@ -129,6 +124,20 @@ variable "ad_admin_login_name" {
   default     = null
 }
 
+variable "key_vault_key_id" {
+  description = "The URL to a Key Vault Key"
+  default     = null
+}
+
+variable "subnet_id" {
+  description = "The resource ID of the subnet"
+  default     = null
+}
+
+variable "ignore_missing_vnet_service_endpoint" {
+  description = "Should the Virtual Network Rule be created before the Subnet has the Virtual Network Service Endpoint enabled?"
+  default     = false
+}
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)

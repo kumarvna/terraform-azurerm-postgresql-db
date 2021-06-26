@@ -1,21 +1,10 @@
-# Azure Database for PostgreSQL Terraform Module
+# Azure Database for MySQL Terraform Module
 
 Azure Database for MySQL is easy to set up, manage and scale. It automates the management and maintenance of your infrastructure and database server, including routine updates, backups and security. Enjoy maximum control of database management with custom maintenance windows and multiple configuration parameters for fine grained tuning with Flexible Server (Preview).
 
-## Resources are supported
+## Module Usage
 
-* [MySQL Servers](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_server)
-* [MySQL Database](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_database)
-* [MySQL Configuration](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_configuration)
-* [MySQL Firewall Rules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_firewall_rule)
-* [MySQL Active Directory Administrator](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_active_directory_administrator)
-* [MySQL Customer Managed Key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_server_key)
-* [MySQL Virtual Network Rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_virtual_network_rule)
-* [MySQL Diagnostics](https://docs.microsoft.com/en-us/azure/azure-sql/database/metrics-diagnostic-telemetry-logging-streaming-export-configure?tabs=azure-portal)
-* [Private Endpoints](https://www.terraform.io/docs/providers/azurerm/r/private_endpoint.html)
-* [Private DNS zone for `privatelink` A records](https://www.terraform.io/docs/providers/azurerm/r/private_dns_zone.html)
-
-```terraform
+```hcl
 module "postgresql-db" {
   source  = "kumarvna/postgresql-db/azurerm"
   version = "1.0.0"
@@ -97,3 +86,17 @@ module "postgresql-db" {
   }
 }
 ```
+
+## Terraform Usage
+
+To run this example you need to execute following Terraform commands
+
+```hcl
+terraform init
+
+terraform plan
+
+terraform apply
+```
+
+Run `terraform destroy` when you don't need these resources.

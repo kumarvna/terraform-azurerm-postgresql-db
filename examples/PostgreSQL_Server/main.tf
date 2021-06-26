@@ -1,7 +1,6 @@
 module "postgresql-db" {
-  // source  = "kumarvna/postgresql-db/azurerm"
-  // version = "1.0.0"
-  source = "../../"
+  source  = "kumarvna/postgresql-db/azurerm"
+  version = "1.0.0"
 
   # By default, this module will create a resource group
   # proivde a name to use an existing resource group and set the argument 
@@ -11,7 +10,7 @@ module "postgresql-db" {
   resource_group_name   = "rg-shared-westeurope-01"
   location              = "westeurope"
 
-  # MySQL Server and Database settings
+  # PostgreSQL Server and Database settings
   postgresql_server_name = "mypostgresdbsrv01"
 
   postgresql_server_settings = {
@@ -40,25 +39,25 @@ module "postgresql-db" {
   postgresql_configuration = {
     backslash_quote = "on"
   }
-  /*
-  # Use Virtual Network service endpoints and rules for Azure Database for MySQL
+
+  # Use Virtual Network service endpoints and rules for Azure Database for PostgreSQL
   subnet_id = var.subnet_id
 
   # The URL to a Key Vault custom managed key
   key_vault_key_id = var.key_vault_key_id
-*/
+
   # To enable Azure Defender for database set `enable_threat_detection_policy` to true 
   enable_threat_detection_policy = true
   log_retention_days             = 30
   email_addresses_for_alerts     = ["user@example.com", "firstname.lastname@example.com"]
 
-  # AD administrator for an Azure MySQL server
-  # Allows you to set a user or group as the AD administrator for an Azure SQL server
+  # AD administrator for an Azure database for PostgreSQL
+  # Allows you to set a user or group as the AD administrator for PostgreSQL server
   ad_admin_login_name = "firstname.lastname@example.com"
 
-  # (Optional) To enable Azure Monitoring for Azure MySQL database
+  # (Optional) To enable Azure Monitoring for Azure PostgreSQL database
   # (Optional) Specify `storage_account_name` to save monitoring logs to storage. 
-  //log_analytics_workspace_name = "loganalytics-we-sharedtest2"
+  log_analytics_workspace_name = "loganalytics-we-sharedtest2"
 
   # Firewall Rules to allow azure and external clients and specific Ip address/ranges. 
   firewall_rules = {

@@ -139,9 +139,9 @@ resource "azurerm_postgresql_configuration" "main" {
   value               = each.value
 }
 
-#------------------------------------------------------------
+#------------------------------------------------------------------
 # Adding Firewall rules for PostgreSQL Server - Default is "false"
-#------------------------------------------------------------
+#------------------------------------------------------------------
 resource "azurerm_postgresql_firewall_rule" "main" {
   for_each            = var.firewall_rules != null ? { for k, v in var.firewall_rules : k => v if v != null } : {}
   name                = format("%s", each.key)
@@ -161,4 +161,25 @@ resource "azurerm_postgresql_active_directory_administrator" "main" {
   login               = var.ad_admin_login_name
   tenant_id           = data.azurerm_client_config.current.tenant_id
   object_id           = data.azurerm_client_config.current.object_id
+}
+
+#-----------------------------------------------------------------------------
+# Manages a Customer Managed Key for a PostgreSQL Server. - Default is "false"
+#-----------------------------------------------------------------------------
+resource "azurerm_postgresql_server_key" "main" {
+  count            = var.key_vault_key_id != null ? 1 : 0
+  server_id        = azurerm_postgresql_server.main.id
+  key_vault_key_id = var.key_vault_key_id
+}
+
+#--------------------------------------------------------------------------------
+# Allowing traffic between an PostgreSQL server and a subnet - Default is "false"
+#--------------------------------------------------------------------------------
+resource "azurerm_postgresql_virtual_network_rule" "main" {
+  count                                = var.subnet_id != null ? 1 : 0
+  name                                 = format("%s-vnet-rule", var.postgresql_server_name)
+  resource_group_name                  = local.resource_group_name
+  server_name                          = azurerm_postgresql_server.main.name
+  subnet_id                            = var.subnet_id
+  ignore_missing_vnet_service_endpoint = var.ignore_missing_vnet_service_endpoint
 }
