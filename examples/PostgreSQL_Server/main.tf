@@ -46,7 +46,7 @@ module "postgresql-db" {
 
   # The URL to a Key Vault custom managed key
   key_vault_key_id = var.key_vault_key_id
-
+*/
   # To enable Azure Defender for database set `enable_threat_detection_policy` to true 
   enable_threat_detection_policy = true
   log_retention_days             = 30
@@ -58,8 +58,8 @@ module "postgresql-db" {
 
   # (Optional) To enable Azure Monitoring for Azure MySQL database
   # (Optional) Specify `storage_account_name` to save monitoring logs to storage. 
-  log_analytics_workspace_name = "loganalytics-we-sharedtest2"
-*/
+  //log_analytics_workspace_name = "loganalytics-we-sharedtest2"
+
   # Firewall Rules to allow azure and external clients and specific Ip address/ranges. 
   firewall_rules = {
     access-to-azure = {

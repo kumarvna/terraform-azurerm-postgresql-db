@@ -140,7 +140,7 @@ resource "azurerm_postgresql_configuration" "main" {
 }
 
 #------------------------------------------------------------
-# Adding Firewall rules for MySQL Server - Default is "false"
+# Adding Firewall rules for PostgreSQL Server - Default is "false"
 #------------------------------------------------------------
 resource "azurerm_postgresql_firewall_rule" "main" {
   for_each            = var.firewall_rules != null ? { for k, v in var.firewall_rules : k => v if v != null } : {}
@@ -149,4 +149,16 @@ resource "azurerm_postgresql_firewall_rule" "main" {
   server_name         = azurerm_postgresql_server.main.name
   start_ip_address    = each.value["start_ip_address"]
   end_ip_address      = each.value["end_ip_address"]
+}
+
+#----------------------------------------------------------
+# Adding AD Admin to PostgreSQL Server - Default is "false"
+#----------------------------------------------------------
+resource "azurerm_postgresql_active_directory_administrator" "main" {
+  count               = var.ad_admin_login_name != null ? 1 : 0
+  server_name         = azurerm_postgresql_server.main.name
+  resource_group_name = local.resource_group_name
+  login               = var.ad_admin_login_name
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  object_id           = data.azurerm_client_config.current.object_id
 }
