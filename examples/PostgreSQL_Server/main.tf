@@ -24,8 +24,8 @@ module "postgresql-db" {
     admin_password = "H@Sh1CoR3!"
     # Database name, charset and collection arguments  
     database_name = "demomy-postgres-db"
-    charset       = "utf8"
-    collation     = "utf8_unicode_ci"
+    charset       = "UTF8"
+    collation     = "English_United States.1252"
     # Storage Profile and other optional arguments
     auto_grow_enabled                = true
     backup_retention_days            = 7
