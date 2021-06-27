@@ -7,7 +7,7 @@ Azure Database for PostgreSQL Single Server is a fully managed database service 
 ```terraform
 module "postgresql-db" {
   source  = "kumarvna/postgresql-db/azurerm"
-  version = "1.0.0"
+  version = "1.1.0"
 
   # By default, this module will create a resource group
   # proivde a name to use an existing resource group and set the argument 
