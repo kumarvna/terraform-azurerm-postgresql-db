@@ -1,10 +1,3 @@
-# Azure Database for PostgreSQL Terraform Module
-
-Azure Database for PostgreSQL Single Server is a fully managed database service with minimal requirements for customizations of database. The single server platform is designed to handle most of the database management functions such as patching, backups, high availability, security with minimal user configuration and control. The architecture is optimized for built-in high availability with 99.99% availability on single availability zone. It supports community version of PostgreSQL 9.5, 9,6, 10, and 11.
-
-## Module Usage
-
-```terraform
 module "postgresql-db" {
   source  = "kumarvna/postgresql-db/azurerm"
   version = "1.1.0"
@@ -66,6 +59,14 @@ module "postgresql-db" {
   # (Optional) Specify `storage_account_name` to save monitoring logs to storage. 
   log_analytics_workspace_name = "loganalytics-we-sharedtest2"
 
+  # Creating Private Endpoint requires, VNet name and address prefix to create a subnet
+  # By default this will create a `privatelink.mysql.database.azure.com` DNS zone. 
+  # To use existing private DNS zone specify `existing_private_dns_zone` with valid zone name
+  enable_private_endpoint       = true
+  virtual_network_name          = "vnet-shared-hub-westeurope-001"
+  private_subnet_address_prefix = ["10.1.5.0/29"]
+  #  existing_private_dns_zone     = "demo.example.com"
+
   # Firewall Rules to allow azure and external clients and specific Ip address/ranges. 
   firewall_rules = {
     access-to-azure = {
@@ -85,18 +86,3 @@ module "postgresql-db" {
     Owner       = "test-user"
   }
 }
-```
-
-## Terraform Usage
-
-To run this example you need to execute following Terraform commands
-
-```hcl
-terraform init
-
-terraform plan
-
-terraform apply
-```
-
-Run `terraform destroy` when you don't need these resources.

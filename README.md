@@ -2,7 +2,7 @@
 
 Azure Database for PostgreSQL Single Server is a fully managed database service with minimal requirements for customizations of database. The single server platform is designed to handle most of the database management functions such as patching, backups, high availability, security with minimal user configuration and control. The architecture is optimized for built-in high availability with 99.99% availability on single availability zone. It supports community version of PostgreSQL 9.5, 9,6, 10, and 11.
 
-## Resources are supported
+## Resources supported
 
 * [PostgreSQL Server](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_server)
 * [PostgreSQL Database](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_database)
@@ -12,11 +12,13 @@ Azure Database for PostgreSQL Single Server is a fully managed database service 
 * [PostgreSQL Customer Managed Key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_server_key)
 * [PostgreSQL Virtual Network Rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_virtual_network_rule)
 * [PostgreSQL Diagnostics](https://docs.microsoft.com/en-us/azure/azure-sql/database/metrics-diagnostic-telemetry-logging-streaming-export-configure?tabs=azure-portal)
+* [Private Endpoints](https://www.terraform.io/docs/providers/azurerm/r/private_endpoint.html)
+* [Private DNS zone for `privatelink` A records](https://www.terraform.io/docs/providers/azurerm/r/private_dns_zone.html)
 
 ```terraform
 module "postgresql-db" {
   source  = "kumarvna/postgresql-db/azurerm"
-  version = "1.0.0"
+  version = "1.1.0"
 
   # By default, this module will create a resource group
   # proivde a name to use an existing resource group and set the argument 
@@ -73,7 +75,15 @@ module "postgresql-db" {
 
   # (Optional) To enable Azure Monitoring for Azure PostgreSQL database
   # (Optional) Specify `storage_account_name` to save monitoring logs to storage. 
-  # log_analytics_workspace_name = "loganalytics-we-sharedtest2"
+  log_analytics_workspace_name = "loganalytics-we-sharedtest2"
+
+  # Creating Private Endpoint requires, VNet name and address prefix to create a subnet
+  # By default this will create a `privatelink.mysql.database.azure.com` DNS zone. 
+  # To use existing private DNS zone specify `existing_private_dns_zone` with valid zone name
+  enable_private_endpoint       = true
+  virtual_network_name          = "vnet-shared-hub-westeurope-001"
+  private_subnet_address_prefix = ["10.1.5.0/29"]
+  #  existing_private_dns_zone     = "demo.example.com"
 
   # Firewall Rules to allow azure and external clients and specific Ip address/ranges. 
   firewall_rules = {
@@ -228,6 +238,10 @@ An effective naming convention assembles resource names by using important resou
 firewall_rules|Range of IP addresses to allow firewall connections|map(object({}))|`null`
 `ad_admin_login_name`|The login name of the principal to set as the server administrator|string|`null`
 `key_vault_key_id`|The URL to a Key Vault custom managed key|string|`null`
+`enable_private_endpoint`|Azure Private Endpoint is a network interface that connects you privately and securely to a service powered by Azure Private Link|string|`"false"`
+`virtual_network_name` | The name of the virtual network|string|`""`
+`private_subnet_address_prefix`|A list of subnets address prefixes inside virtual network| list |`[]`
+`existing_private_dns_zone`|Name of the existing private DNS zone|string|`null`
 `Tags` | A map of tags to add to all resources | map | `{}`
 
 ## Outputs
@@ -241,6 +255,10 @@ firewall_rules|Range of IP addresses to allow firewall connections|map(object({}
 `postgresql_server_id`|The resource ID of the PostgreSQL Server
 `postgresql_server_fqdn`|The FQDN of the PostgreSQL Server
 `postgresql_database_id`|The ID of the PostgreSQL Database
+`postgresql_server_private_endpoint`|id of the PostgreSQL server Private Endpoint
+`postgresql_server_private_dns_zone_domain`|DNS zone name of PostgreSQL server Private endpoints dns name records
+`postgresql_server_private_endpoint_ip`|PostgreSQL server private endpoint IPv4 Addresses
+`postgresql_server_private_endpoint_fqdn`|PostgreSQL server private endpoint FQDN Addresses
 
 ## Resource Graph
 
